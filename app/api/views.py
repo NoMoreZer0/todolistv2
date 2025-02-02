@@ -39,6 +39,25 @@ class TaskViewSet(viewsets.ModelViewSet):
         return core_models.Task.objects.filter(author=self.request.user)
 
 
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = serializers.UserSerializer
+
+    def get_queryset(self):
+        return core_models.User.objects.filter(pk=self.request.user.id)
+
+
+class PushTokenView(APIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = serializers.PushTokenCreateSerializer
+
+    def post(self, request):
+        serializer = serializers.PushTokenCreateSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        response = serializer.create(serializer.validated_data)
+        return Response(response)
+
+
 class PingView(APIView):
     def get(self, request):
         return Response({"message": "pong"})

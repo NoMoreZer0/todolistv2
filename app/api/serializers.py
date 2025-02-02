@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate
 
 from app.core import models as core_models
 from app.core import service as core_service
+from fcm_django.models import FCMDevice
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -42,9 +43,27 @@ class LoginSerializer(serializers.Serializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.Task
-        fields = ["title", "description", "schedule"]
+        fields = ["id", "title", "description", "schedule"]
 
     def create(self, validated_data):
         request = self.context.get("request")
         validated_data["author"] = request.user
         return super().create(validated_data)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = core_models.User
+        fields = ["id", "email", "name"]
+
+
+class PushTokenCreateSerializer(serializers.Serializer):
+    token = serializers.CharField()
+
+    def create(self, validated_data):
+        FCMDevice.objects.update_or_create(
+            registration_id=validated_data["token"],
+            defaults={
+                "user": self.context["request"].user
+            }
+        )

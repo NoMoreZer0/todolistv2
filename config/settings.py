@@ -6,6 +6,8 @@ from pathlib import Path
 import environ
 from django.utils.translation import gettext_lazy as _
 
+from firebase_admin import initialize_app, credentials
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 APP_DIR = BASE_DIR.joinpath("app")
 env = environ.Env()
@@ -84,6 +86,7 @@ THIRD_PARTY_APPS = [
     "django_dramatiq",
     "imagekit",
     "corsheaders",
+    "fcm_django",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -216,3 +219,8 @@ EMAIL_ON = env.bool("EMAIL_ON", False)
 # AUTH
 # -----------------------------------------------------------------------------
 AUTH_USER_MODEL = "core.User"
+
+# FCM SETTINGS
+# -----------------------------------------------------------------------------
+cred = credentials.Certificate(env.str("FIREBASE_CREDENTIALS_PATH", ""))
+FIREBASE_APP = initialize_app(cred)

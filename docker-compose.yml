@@ -36,11 +36,14 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings
       - RABBITMQ_BROKER_URL=amqp://todolist:todolist@rabbitmq-todolist:5672/todolist
       - DATABASE_URL=psql://todolist:todolist@postgres-todolist:5432/todolist
+      - NOTIFICATION_KEY=BNtDub86M_KTCNb6zH4L_OamnQoy51BdWd_1DqW6j8SLyBL6BtU4awc8LiEIpsRoQT9e05bwFuuYzeO1c7M7rm8
+      - FIREBASE_CREDENTIALS_PATH=/etc/fcm_todolistv2.json
 
       # silence warnings. be careful!
       - PYTHONWARNINGS=ignore
     volumes:
       - .:/code
+      - /opt/fcm_todolistv2.json:/etc/fcm_todolistv2.json
   django-todolist:
     image: todolist
     restart: unless-stopped
@@ -51,6 +54,7 @@ services:
       - .:/code
       - dmedia:/media
       - dstatic:/static
+      - /opt/fcm_todolistv2.json:/etc/fcm_todolistv2.json
     ports:
       - "19000:8000"
     depends_on:
@@ -60,6 +64,8 @@ services:
       - DJANGO_SETTINGS_MODULE=config.settings
       - RABBITMQ_BROKER_URL=amqp://todolist:todolist@rabbitmq-todolist:5672/todolist
       - DATABASE_URL=psql://todolist:todolist@postgres-todolist:5432/todolist
+      - NOTIFICATION_KEY=BNtDub86M_KTCNb6zH4L_OamnQoy51BdWd_1DqW6j8SLyBL6BtU4awc8LiEIpsRoQT9e05bwFuuYzeO1c7M7rm8
+      - FIREBASE_CREDENTIALS_PATH=/etc/fcm_todolistv2.json
 
 networks:
   default:

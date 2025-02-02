@@ -12,12 +12,24 @@ attrs==25.1.0
     #   referencing
 build==1.2.2.post1
     # via pip-tools
+cachecontrol==0.14.2
+    # via firebase-admin
+cachetools==5.5.1
+    # via google-auth
+certifi==2025.1.31
+    # via requests
+cffi==1.17.1
+    # via cryptography
 cfgv==3.4.0
     # via pre-commit
+charset-normalizer==3.4.1
+    # via requests
 click==8.1.8
     # via pip-tools
 coverage[toml]==7.6.10
     # via pytest-cov
+cryptography==44.0.0
+    # via pyjwt
 distlib==0.3.9
     # via virtualenv
 django==4.2.17
@@ -30,6 +42,7 @@ django==4.2.17
     #   django-waffle
     #   djangorestframework
     #   drf-spectacular
+    #   fcm-django
 django-appconf==1.0.6
     # via django-imagekit
 django-cors-headers==4.3.0
@@ -56,16 +69,69 @@ drf-spectacular==0.28.0
     # via -r requirements.in
 exceptiongroup==1.2.2
     # via pytest
+fcm-django==2.2.1
+    # via -r requirements.in
 filelock==3.17.0
     # via virtualenv
+firebase-admin==6.6.0
+    # via fcm-django
 gevent==22.10.2
     # via -r requirements.in
+google-api-core[grpc]==2.24.1
+    # via
+    #   firebase-admin
+    #   google-api-python-client
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-api-python-client==2.160.0
+    # via firebase-admin
+google-auth==2.38.0
+    # via
+    #   google-api-core
+    #   google-api-python-client
+    #   google-auth-httplib2
+    #   google-cloud-core
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-auth-httplib2==0.2.0
+    # via google-api-python-client
+google-cloud-core==2.4.1
+    # via
+    #   google-cloud-firestore
+    #   google-cloud-storage
+google-cloud-firestore==2.20.0
+    # via firebase-admin
+google-cloud-storage==3.0.0
+    # via firebase-admin
+google-crc32c==1.6.0
+    # via
+    #   google-cloud-storage
+    #   google-resumable-media
+google-resumable-media==2.7.2
+    # via google-cloud-storage
+googleapis-common-protos==1.66.0
+    # via
+    #   google-api-core
+    #   grpcio-status
 greenlet==3.1.1
     # via gevent
+grpcio==1.70.0
+    # via
+    #   google-api-core
+    #   grpcio-status
+grpcio-status==1.70.0
+    # via google-api-core
 gunicorn==21.2.0
     # via -r requirements.in
+httplib2==0.22.0
+    # via
+    #   google-api-python-client
+    #   google-auth-httplib2
 identify==2.6.6
     # via pre-commit
+idna==3.10
+    # via requests
 inflection==0.5.1
     # via drf-spectacular
 iniconfig==2.0.0
@@ -76,6 +142,8 @@ jsonschema==4.22.0
     #   drf-spectacular
 jsonschema-specifications==2024.10.1
     # via jsonschema
+msgpack==1.1.0
+    # via cachecontrol
 nodeenv==1.9.1
     # via pre-commit
 packaging==24.2
@@ -99,8 +167,31 @@ pre-commit==2.19.0
     # via -r requirements.in
 prometheus-client==0.21.1
     # via dramatiq
+proto-plus==1.26.0
+    # via
+    #   google-api-core
+    #   google-cloud-firestore
+protobuf==5.29.3
+    # via
+    #   google-api-core
+    #   google-cloud-firestore
+    #   googleapis-common-protos
+    #   grpcio-status
+    #   proto-plus
 psycopg2==2.9.9
     # via -r requirements.in
+pyasn1==0.6.1
+    # via
+    #   pyasn1-modules
+    #   rsa
+pyasn1-modules==0.4.1
+    # via google-auth
+pycparser==2.22
+    # via cffi
+pyjwt[crypto]==2.10.1
+    # via firebase-admin
+pyparsing==3.2.1
+    # via httplib2
 pyproject-hooks==1.2.0
     # via
     #   build
@@ -125,14 +216,23 @@ referencing==0.36.2
     # via
     #   jsonschema
     #   jsonschema-specifications
+requests==2.32.3
+    # via
+    #   cachecontrol
+    #   google-api-core
+    #   google-cloud-storage
 rpds-py==0.22.3
     # via
     #   jsonschema
     #   referencing
+rsa==4.9
+    # via google-auth
 ruff==0.7.2
     # via -r requirements.in
 sqlparse==0.5.3
     # via django
+swapper==1.4.0
+    # via fcm-django
 toml==0.10.2
     # via pre-commit
 tomli==2.2.1
@@ -146,7 +246,11 @@ typing-extensions==4.12.2
     #   asgiref
     #   referencing
 uritemplate==4.1.1
-    # via drf-spectacular
+    # via
+    #   drf-spectacular
+    #   google-api-python-client
+urllib3==2.3.0
+    # via requests
 virtualenv==20.29.1
     # via pre-commit
 wheel==0.45.1
