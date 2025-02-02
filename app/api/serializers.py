@@ -48,6 +48,8 @@ class TaskSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get("request")
         validated_data["author"] = request.user
+        fcm_service = core_service.FCMService(request.user)
+        fcm_service.send_message(title="Congratz!", message="You have created a task!")
         return super().create(validated_data)
 
 

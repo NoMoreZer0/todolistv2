@@ -1,6 +1,5 @@
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
-from django.contrib.auth import logout
 
 from rest_framework import generics
 from rest_framework import viewsets
@@ -9,6 +8,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import mixins
 
 from app.api import serializers
 from app.core import models as core_models
@@ -47,15 +47,14 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         return core_models.User.objects.filter(pk=self.request.user.id)
 
 
-class PushTokenView(APIView):
-    permission_classes = [IsAuthenticated]
+class PushTokenViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     serializer_class = serializers.PushTokenCreateSerializer
 
-    def post(self, request):
+    def create(self, request, *args, **kwargs):
         serializer = serializers.PushTokenCreateSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
-        response = serializer.create(serializer.validated_data)
-        return Response(response)
+        serializer.create(serializer.validated_data)
+        return Response({})
 
 
 class PingView(APIView):
