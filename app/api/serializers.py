@@ -8,14 +8,13 @@ from app.core import service as core_service
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = core_models.User
-        fields = ['email', 'name', 'password']
+        fields = ["email", "name", "password"]
 
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
         user = core_models.User.objects.create_user(
-            email=validated_data['email'],
-            password=validated_data['password']
+            email=validated_data["email"], password=validated_data["password"]
         )
         return user
 
@@ -40,3 +39,12 @@ class LoginSerializer(serializers.Serializer):
         return {"token": token}
 
 
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = core_models.Task
+        fields = ["title", "description", "schedule"]
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        validated_data["author"] = request.user
+        return super().create(validated_data)

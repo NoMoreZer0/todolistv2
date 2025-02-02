@@ -20,32 +20,26 @@ class TimeStampMixin(models.Model):
     )
 
 
-class Task(TimeStampMixin):
-    title = models.CharField()
-    description = models.TextField()
-    schedule = models.DateTimeField(blank=True, null=True)
-
-
 class User(AbstractBaseUser, TimeStampMixin, PermissionsMixin):
     class Meta:
-        swappable = 'AUTH_USER_MODEL'
+        swappable = "AUTH_USER_MODEL"
 
     objects = UserManager()
     email = models.EmailField(unique=True)
     name = models.CharField(null=True, blank=True)
     USERNAME_FIELD = "email"
-    is_staff = models.BooleanField(
-        default=False, verbose_name="Доступ в админ панель"
-    )
+    is_staff = models.BooleanField(default=False, verbose_name="Доступ в админ панель")
     is_active = models.BooleanField(default=True)
 
     def json(self):
-        return {
-            "name": self.name,
-            "email": self.email
-        }
+        return {"name": self.name, "email": self.email}
 
     def __str__(self) -> str:
         return f"{self.email}"
 
 
+class Task(TimeStampMixin):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField()
+    description = models.TextField()
+    schedule = models.DateTimeField(blank=True, null=True)

@@ -3,10 +3,12 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import logout
 
 from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 from app.api import serializers
 from app.core import models as core_models
@@ -27,6 +29,14 @@ class LoginView(APIView):
         serializer.is_valid(raise_exception=True)
         response = serializer.create(serializer.validated_data)
         return Response(response)
+
+
+class TaskViewSet(viewsets.ModelViewSet):
+    serializer_class = serializers.TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return core_models.Task.objects.filter(author=self.request.user)
 
 
 class PingView(APIView):

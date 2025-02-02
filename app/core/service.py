@@ -2,7 +2,6 @@ from rest_framework.authtoken.models import Token
 
 
 class AuthenticationService:
-
     def __init__(self, user):
         self.user = user
 

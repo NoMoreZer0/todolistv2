@@ -83,7 +83,7 @@ THIRD_PARTY_APPS = [
     "rest_framework.authtoken",
     "django_dramatiq",
     "imagekit",
-    "corsheaders"
+    "corsheaders",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -91,6 +91,11 @@ CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 SITE_URL = "http://localhost:19000"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+]
 
 # DRAMATIQ_SETTINGS
 # -----------------------------------------------------------------------------
@@ -211,5 +216,3 @@ EMAIL_ON = env.bool("EMAIL_ON", False)
 # AUTH
 # -----------------------------------------------------------------------------
 AUTH_USER_MODEL = "core.User"
-
-
